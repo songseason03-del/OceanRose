@@ -65,42 +65,65 @@
 
     /* Soft floating particles */
     .particles{
-      /* Ocean surface (day mode only) */
+      /* Ocean surface — enhanced for mobile */
 .ocean-surface{
   position:fixed;
-  inset:0;
+  inset:-20%;
   pointer-events:none;
   z-index:0;
-  opacity:.35;
+
   background:
-    repeating-linear-gradient(
-      -2deg,
-      rgba(58,166,255,.06) 0px,
-      rgba(58,166,255,.06) 1px,
-      transparent 6px,
-      transparent 18px
+    radial-gradient(
+      1200px 400px at 50% 0%,
+      rgba(58,166,255,.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      1000px 360px at 20% 20%,
+      rgba(58,166,255,.12),
+      transparent 65%
+    ),
+    radial-gradient(
+      1000px 360px at 80% 30%,
+      rgba(58,166,255,.10),
+      transparent 65%
     );
-  animation: oceanDrift 18s linear infinite;
+
+  animation: oceanFloat 22s ease-in-out infinite alternate;
 }
 
+/* Candy 主题 */
 [data-theme="candy"] .ocean-surface{
   background:
-    repeating-linear-gradient(
-      -2deg,
-      rgba(255,90,165,.06) 0px,
-      rgba(255,90,165,.06) 1px,
-      transparent 6px,
-      transparent 18px
+    radial-gradient(
+      1200px 400px at 50% 0%,
+      rgba(255,90,165,.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      1000px 360px at 20% 20%,
+      rgba(40,192,122,.16),
+      transparent 65%
+    ),
+    radial-gradient(
+      1000px 360px at 80% 30%,
+      rgba(255,90,165,.14),
+      transparent 65%
     );
 }
 
-.night .ocean-surface{display:none}
-
-@keyframes oceanDrift{
-  from{transform:translateY(0)}
-  to{transform:translateY(-40px)}
+.night .ocean-surface{
+  display:none;
 }
-      <div class="ocean-surface"></div>
+
+@keyframes oceanFloat{
+  0%{
+    transform:translateY(0) scale(1);
+  }
+  100%{
+    transform:translateY(-40px) scale(1.04);
+  }
+}      <div class="ocean-surface"></div>
       position:fixed; inset:0; pointer-events:none; z-index:0;
       opacity:.55;
       background:
