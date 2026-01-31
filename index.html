@@ -4,259 +4,299 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OceanRose</title>
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ========== 变量 ========== */
 :root {
-  /* 默认红蓝渐变 */
-  --bg-gradient: linear-gradient(135deg, #fef2f2, #d1e8ff);
-  --ink: #142233;
-  --muted: #5b6b7d;
-  --ocean: #3aa6ff;
-  --ocean2: #1c78ff;
-  --rose: #d11a4b;
-  --poppy: #ffffff;
-
-  --card: rgba(255,255,255,0.72);
-  --border: rgba(20,34,51,0.1);
-  --shadow: 0 18px 60px rgba(10,25,40,0.12);
-  --radius: 22px;
+  --gradient-day: linear-gradient(135deg, #ff5f6d, #2193b0); /* 红蓝 */
+  --gradient-day-alt: linear-gradient(135deg, #ff9aa2, #8fd3f4); /* 粉绿 */
+  --gradient-night: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  --text-color: #111;
+  --card-bg: rgba(255,255,255,0.8);
+  --card-bg-night: rgba(0,0,0,0.6);
+  --wave-color: rgba(255,255,255,0.3);
 }
 
-/* Candy & Cove 粉绿高级渐变 */
-[data-theme="candy"] {
-  --bg-gradient: linear-gradient(135deg, #fff7fb, #f4fff9);
-  --ocean: #ff5aa5; /* pink */
-  --ocean2: #28c07a; /* green */
-  --rose: #ff2d55;
-  --ink: #1a1a1a;
-}
-
-/* Ocean 红蓝主题 */
-[data-theme="ocean"] {
-  --bg-gradient: linear-gradient(135deg, #fef2f2, #d1e8ff);
-  --ocean: #3aa6ff;
-  --ocean2: #1c78ff;
-  --rose: #d11a4b;
-  --ink: #142233;
-}
-
-/* 页面基础样式 */
+/* ========== 全局样式 ========== */
 body {
-  margin:0;
-  font-family: "Helvetica", "Arial", sans-serif;
-  background: var(--bg-gradient);
-  color: var(--ink);
-  transition: background 0.5s ease, color 0.5s ease;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  transition: background 1s, color 1s;
+  color: var(--text-color);
+  background: var(--gradient-day);
+  overflow-x: hidden;
 }
 
-header {
-  text-align:center;
-  padding: 1rem;
+h1, h2, h3 {
+  margin: 0;
 }
 
-header h1 {
-  font-size: 2rem;
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 80px 20px 40px;
 }
 
-button.theme-btn {
-  cursor:pointer;
-  padding: 6px 12px;
-  margin:0 6px;
-  border-radius: 8px;
-  border:none;
-  background-color: var(--rose);
-  color:white;
-  font-weight:bold;
+/* ========== 标题区 ========== */
+.header {
+  text-align: center;
+  padding: 40px 20px 60px;
+  font-family: 'Parisienne', cursive;
+}
+
+.header h1 {
+  font-size: 4em;
+  margin-bottom: 10px;
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+.header p {
+  font-size: 1.5em;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+}
+
+/* ========== 卡片样式 ========== */
+.card {
+  background: var(--card-bg);
+  padding: 20px;
+  margin: 40px 0;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: background 0.5s;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+/* ========== 展开全文 ========== */
+.full-story {
+  display: none;
+  margin-top: 15px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+/* ========== Step 区 ========== */
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step img {
+  max-width: 300px;
+  margin-bottom: 15px;
+}
+
+/* ========== 按钮样式 ========== */
+.button {
+  cursor: pointer;
+  padding: 10px 18px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(135deg,#ff5f6d,#2193b0);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   transition: 0.3s;
 }
-button.theme-btn:hover {
-  opacity:0.8;
+
+.button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
-/* 章节按钮 */
-.nav-buttons {
-  text-align:center;
-  margin:1rem 0;
-}
-.nav-buttons button {
-  margin:0 4px;
-  padding:6px 12px;
-  border-radius:8px;
-  border:1px solid var(--border);
-  background-color: var(--card);
-  cursor:pointer;
-  transition:0.3s;
-}
-.nav-buttons button:hover {
-  background-color: var(--rose);
-  color:white;
+/* ========== 右下角按钮组 ========== */
+#theme-buttons {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
 }
 
-/* 章节卡片 */
-.chapter {
-  display:none;
-  max-width:700px;
-  margin:1rem auto;
-  padding:1rem;
-  background-color: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+/* ========== 海浪波纹（白天） ========== */
+.wave {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 200px;
+  background: repeating-linear-gradient(transparent, transparent 20px, var(--wave-color) 22px);
+  animation: waveMove 8s linear infinite;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
-.chapter img {
-  width:100%;
-  max-width:500px;
-  border-radius:12px;
-  margin-bottom:12px;
+@keyframes waveMove {
+  0% { transform: translateX(0) translateY(0); }
+  50% { transform: translateX(-25%) translateY(5px); }
+  100% { transform: translateX(-50%) translateY(0); }
 }
 
-.chapter p {
-  margin-bottom:0.8rem;
-  line-height:1.6;
+/* ========== 夜晚萤火虫 ========== */
+.firefly {
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  background: yellow;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  animation: fireflyAnim 5s linear infinite;
 }
 
-.show-full-btn {
-  display:inline-block;
-  padding:8px 16px;
-  margin-top:12px;
-  border-radius:8px;
-  border:none;
-  background-color: var(--rose);
-  color:white;
-  cursor:pointer;
-  font-weight:bold;
-}
-.show-full-btn:hover {
-  opacity:0.8;
+@keyframes fireflyAnim {
+  0% { transform: translate(0,0) scale(0.5); opacity: 0; }
+  50% { opacity:1; }
+  100% { transform: translate(500px,-300px) scale(1); opacity:0; }
 }
 
-/* 火萤彩蛋 */
-#fireflies, #clickFireflies {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:10;
+/* ========== 夜晚模式覆盖 ========== */
+body.night {
+  background: var(--gradient-night);
+  color: white;
 }
-.fly {
-  position:absolute;
-  width:4px;
-  height:4px;
-  background:yellow;
-  border-radius:50%;
-  animation: float 5s linear infinite;
-  opacity:0.8;
+
+body.night .card {
+  background: var(--card-bg-night);
 }
-@keyframes float {
-  0% { transform: translate(0,0) }
-  50% { transform: translate(50px,100px) }
-  100% { transform: translate(-20px,-50px) }
+
+body.night .button {
+  background: linear-gradient(135deg,#ff9aa2,#8fd3f4);
 }
 </style>
 </head>
-<body data-theme="ocean">
+<body>
 
-<header>
-  <h1>OceanRose 🌊🤍🌹</h1>
-  <button class="theme-btn" id="themeBtn">切换主题</button>
-</header>
+<!-- 海浪波纹 -->
+<div class="wave"></div>
 
-<div class="nav-buttons">
-  <button onclick="showChapter('story')">故事梗概</button>
-  <button onclick="showChapter('step1')">Step1 · 8岁</button>
-  <button onclick="showChapter('step2')">Step2 · 14岁</button>
-  <button onclick="showChapter('step3')">Step3 · 18岁</button>
-  <button onclick="showChapter('step4')">Step4 · 现在</button>
+<!-- 标题 -->
+<div class="header container">
+  <h1>OceanRose</h1>
+  <p>白色罂粟与红玫瑰，映照我们的海洋故事</p>
 </div>
 
 <!-- 故事梗概 -->
-<div id="story" class="chapter" style="display:block;">
-  <img src="images/story_cover.png" alt="故事封面">
-  <p>男方是Cove，女方是Candy。八岁的盛夏是两人的第一次相遇。Cove经历了父母离异，随父亲搬到加州靠海小镇Sunset Bird，他急切地想逃离这一切，独自跑到罂粟花山上。夜晚，一个同龄的女孩Candy出现在他面前，一切悄然改变……</p>
-  <button class="show-full-btn" onclick="showFullStory()">点此查看全文</button>
-  <div id="fullStory" style="display:none;">
-    <p>当女孩说出他的名字的时候，他感觉这一切更神奇了，直到女孩告诉他她是从他父亲知道他的名字的……</p>
-    <p>（将你之前发给我的全文故事内容放在这里）</p>
-    <p>……最终，他们在异地恋中依然稳定，彼此最重要的人。</p>
+<div class="container card">
+  <h2>故事梗概</h2>
+  <p id="intro-text">
+    八岁的盛夏，Cove经历父母离异搬到靠海的小镇，第一次遇见Candy…  
+  </p>
+  <button class="button" onclick="toggleStory()">展开全文</button>
+  <div class="full-story" id="full-story">
+    <!-- 故事全文这里放入 -->
+    {{在这里粘贴你完整的故事梗概}}
   </div>
 </div>
 
-<!-- 可保留 Step1~Step4 章节 -->
-<div id="step1" class="chapter">
-  <img src="images/step1.png" alt="8岁Cove & Candy">
-  <p>章节内容……</p>
-</div>
-<div id="step2" class="chapter">
-  <img src="images/step2.png" alt="14岁Cove & Candy">
-  <p>章节内容……</p>
-</div>
-<div id="step3" class="chapter">
-  <img src="images/step3.png" alt="18岁Cove & Candy">
-  <p>章节内容……</p>
-</div>
-<div id="step4" class="chapter">
-  <img src="images/step4.png" alt="现在的Cove & Candy">
-  <p>章节内容……</p>
+<!-- Step1~Step4 -->
+<div class="container step card">
+  <h2>Step1: 8岁</h2>
+  <img src="step1_placeholder.jpg" alt="Step1 Image">
+  <p>Cove与Candy初次相遇的故事。可替换为人设图与补充文字。</p>
 </div>
 
-<div id="fireflies"></div>
-<div id="clickFireflies"></div>
+<div class="container step card">
+  <h2>Step2: 14岁</h2>
+  <img src="step2_placeholder.jpg" alt="Step2 Image">
+  <p>青少年时期的成长片段与趣味互动。</p>
+</div>
+
+<div class="container step card">
+  <h2>Step3: 18岁</h2>
+  <img src="step3_placeholder.jpg" alt="Step3 Image">
+  <p>大学前夕的心动与回忆。</p>
+</div>
+
+<div class="container step card">
+  <h2>Step4: 现在</h2>
+  <img src="step4_placeholder.jpg" alt="Step4 Image">
+  <p>如今的Cove与Candy，异地恋仍温暖如初。</p>
+</div>
+
+<!-- 右下角按钮 -->
+<div id="theme-buttons">
+  <button class="button" onclick="toggleNight()">切换夜晚/白天</button>
+  <button class="button" onclick="switchTheme()">切换红蓝/粉绿</button>
+  <button class="button" onclick="scrollTop()">返回顶部</button>
+</div>
 
 <script>
-// 章节切换
-function showChapter(id){
-  document.querySelectorAll('.chapter').forEach(c=>c.style.display='none');
-  document.getElementById(id).style.display='block';
-}
-
-// 展开全文
-function showFullStory(){
-  document.getElementById('fullStory').style.display='block';
-}
-
-// 主题切换按钮
-const themeBtn = document.getElementById('themeBtn');
-themeBtn.addEventListener('click', () => {
-  const current = document.body.getAttribute('data-theme');
-  if(current === 'candy') {
-    document.body.setAttribute('data-theme','ocean');
+// ========== 展开/收起全文 ==========
+function toggleStory() {
+  const story = document.getElementById('full-story');
+  const btn = event.target;
+  if(story.style.display === 'block') {
+    story.style.display = 'none';
+    btn.textContent = '展开全文';
   } else {
-    document.body.setAttribute('data-theme','candy');
-  }
-});
-
-// 背景火萤
-function spawnFireflies(n=30){
-  const container = document.getElementById('fireflies');
-  container.innerHTML = '';
-  for(let i=0;i<n;i++){
-    const f = document.createElement('div');
-    f.className = 'fly';
-    f.style.left = Math.random()*100 + 'vw';
-    f.style.top = Math.random()*100 + 'vh';
-    f.style.animationDuration = (3+Math.random()*5)+'s';
-    f.style.opacity = 0.3 + Math.random()*0.7;
-    container.appendChild(f);
+    story.style.display = 'block';
+    btn.textContent = '收起全文';
+    story.scrollIntoView({behavior:"smooth"});
   }
 }
-spawnFireflies();
 
-// 点击彩蛋火萤
-document.body.addEventListener('click', e => {
-  const container = document.getElementById('clickFireflies');
-  for(let i=0;i<5;i++){
-    const f = document.createElement('div');
-    f.className = 'fly';
-    f.style.left = (e.clientX + (Math.random()*60-30)) + 'px';
-    f.style.top = (e.clientY + (Math.random()*60-30)) + 'px';
-    f.style.width = f.style.height = (2+Math.random()*4) + 'px';
-    f.style.opacity = 0.5 + Math.random()*0.5;
-    f.style.animationDuration = (2+Math.random()*2) + 's';
-    container.appendChild(f);
-    setTimeout(()=>container.removeChild(f), 2000);
+// ========== 返回顶部 ==========
+function scrollTop() {
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ========== 夜晚/白天切换 ==========
+function toggleNight() {
+  document.body.classList.toggle('night');
+  localStorage.setItem('nightMode', document.body.classList.contains('night'));
+  toggleFireflies();
+}
+
+// ========== 红蓝/粉绿切换 ==========
+let currentTheme = 'redblue';
+function switchTheme() {
+  if(currentTheme === 'redblue'){
+    document.documentElement.style.setProperty('--gradient-day', 'linear-gradient(135deg,#ff9aa2,#8fd3f4)');
+    currentTheme = 'pinkgreen';
+  } else {
+    document.documentElement.style.setProperty('--gradient-day', 'linear-gradient(135deg,#ff5f6d,#2193b0)');
+    currentTheme = 'redblue';
   }
-});
+  localStorage.setItem('colorTheme', currentTheme);
+}
+
+// ========== 本地存储恢复 ==========
+window.onload = () => {
+  const night = localStorage.getItem('nightMode');
+  const theme = localStorage.getItem('colorTheme');
+  if(night==='true') toggleNight();
+  if(theme==='pinkgreen') switchTheme();
+}
+
+// ========== 夜晚萤火虫动画 ==========
+let fireflies = [];
+function toggleFireflies() {
+  if(document.body.classList.contains('night')){
+    for(let i=0;i<30;i++){
+      const f = document.createElement('div');
+      f.classList.add('firefly');
+      f.style.left = Math.random()*100 + 'vw';
+      f.style.top = Math.random()*100 + 'vh';
+      f.style.animationDelay = Math.random()*5 + 's';
+      document.body.appendChild(f);
+      fireflies.push(f);
+    }
+  } else {
+    fireflies.forEach(f=>f.remove());
+    fireflies = [];
+  }
+}
 </script>
 
 </body>
