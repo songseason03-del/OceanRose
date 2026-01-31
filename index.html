@@ -351,6 +351,41 @@
       font-size:13px;
       position:relative; z-index:1;
     }
+    /* ===== Theme system ===== */
+:root{
+  --bg1:#f7fbff;
+  --bg2:#fff8fb;
+  --accent:#2a6fdb;     /* blue */
+  --accent2:#d63a3a;    /* red */
+  --text:#0f172a;
+  --card:rgba(255,255,255,.78);
+  --border:rgba(15,23,42,.08);
+}
+
+/* 红蓝主题：OceanRose */
+body[data-theme="oceanrose"]{
+  --accent:#2a6fdb;
+  --accent2:#d63a3a;
+}
+
+/* 粉绿主题：Candy */
+body[data-theme="candygreen"]{
+  --accent:#22c55e;    /* green */
+  --accent2:#fb7185;   /* pink */
+}
+
+/* 让主题颜色影响按钮/标签等（如果你原本已写就不用重复） */
+a, .pill, .nav-btn.active{
+  color: var(--accent);
+}
+.nav-btn.active{
+  border-color: rgba(42,111,219,.25);
+  background: rgba(42,111,219,.08);
+}
+body[data-theme="candygreen"] .nav-btn.active{
+  border-color: rgba(34,197,94,.25);
+  background: rgba(34,197,94,.10);
+    }
   </style>
 </head>
 
@@ -363,13 +398,13 @@
     <div class="container nav-inner">
       <div class="brand">
         <b>OceanRose</b>
-        <span>🌊🤍🌹</span>
+        <span>🌊🌹</span>
       </div>
 
       <div class="links">
         <a class="chip" href="#synopsis">故事梗概</a>
         <a class="chip" href="#step1">Step1 · 8岁</a>
-        <a class="chip" href="#step2">Step2 · 14岁</a>
+        <a class="chip" href="#step2">Step2 · 13岁</a>
         <a class="chip" href="#step3">Step3 · 18岁</a>
         <a class="chip" href="#step4">Step4 · 现在</a>
         <a class="chip tiny" href="javascript:void(0)" id="secretBtn">✦</a>
@@ -563,9 +598,9 @@
 
   <!-- Controls -->
   <div class="controls">
-    <button class="btn" id="themeBtn">
-      🎨 主题切换
-      <small>红蓝 / 粉绿</small>
+    <button id="themeBtn" class="fab-btn">
+  🎨 主题切换
+  <span id="themeLabel">红蓝 / 粉绿</span>
     </button>
     <button class="btn" id="musicBtn">
       🎵 音乐
