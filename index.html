@@ -27,6 +27,12 @@
       --shadow: 0 18px 60px rgba(10,25,40,.12);
 
       --radius: 22px;
+  /* 新增 */
+  --glow: rgba(58,166,255,.12);
+}
+[data-theme="candy"]{
+  --glow: rgba(255,90,165,.18);
+}
     }
 
     /* Theme: Candy&Cove (pink+green) */
@@ -45,19 +51,56 @@
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
     body{
-      font-family:"Noto Serif SC", serif;
-      color:var(--ink);
-      background: radial-gradient(1200px 800px at 20% 10%, var(--bg2), transparent 55%),
-                  radial-gradient(1200px 900px at 80% 20%, rgba(58,166,255,.12), transparent 60%),
-                  linear-gradient(180deg, var(--bg1), #ffffff 45%, var(--bg2));
-      overflow-x:hidden;
-    }
+  font-family:"Noto Serif SC", serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 800px at 20% 10%, var(--bg2), transparent 55%),
+    radial-gradient(1200px 900px at 80% 20%, var(--glow), transparent 60%),
+    linear-gradient(180deg, var(--bg1), #ffffff 45%, var(--bg2));
+  overflow-x:hidden;
+}
 
     a{color:inherit;text-decoration:none}
     .container{width:min(1050px, 92vw); margin:0 auto;}
 
     /* Soft floating particles */
     .particles{
+      /* Ocean surface (day mode only) */
+.ocean-surface{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.35;
+  background:
+    repeating-linear-gradient(
+      -2deg,
+      rgba(58,166,255,.06) 0px,
+      rgba(58,166,255,.06) 1px,
+      transparent 6px,
+      transparent 18px
+    );
+  animation: oceanDrift 18s linear infinite;
+}
+
+[data-theme="candy"] .ocean-surface{
+  background:
+    repeating-linear-gradient(
+      -2deg,
+      rgba(255,90,165,.06) 0px,
+      rgba(255,90,165,.06) 1px,
+      transparent 6px,
+      transparent 18px
+    );
+}
+
+.night .ocean-surface{display:none}
+
+@keyframes oceanDrift{
+  from{transform:translateY(0)}
+  to{transform:translateY(-40px)}
+}
+      <div class="ocean-surface"></div>
       position:fixed; inset:0; pointer-events:none; z-index:0;
       opacity:.55;
       background:
@@ -475,7 +518,7 @@
 
 直至夜晚时刻，他被一个声音拉回了现实，一个他从来没有见过的，和他年龄相仿的女孩就这么毫无预警的进入了他的世界。
 当女孩说出他的名字的时候，他感觉这一切更神奇了，直到女孩告诉他她是从他父亲知道他的名字的。并不是什么魔法奇幻相关的开展，他不禁有些失望。
-闲聊了一会，两个小孩的家便就都神色着急的赶来了。夜色已至，两人很快就各自回家去了，并没聊上太多，他这时只知道她的名字是Candy，是他对门的邻居。
+闲聊了一会，两个小孩的家长便纷纷神色着急的赶来了。夜色已至，两人很快就各自回家去了，并没聊上太多，他这时只知道她的名字是Candy，是他对门的邻居。
 
 而Candy本人最大的一个性格特质大概是实诚。当天下午她正在步行回家的路上，却发现熟悉的街道多了不熟悉的人，这便是Cove的父亲。小镇里人并不是很多，尤其是孩子，几乎寥寥可数。她是这座小镇唯一一个和Cove同龄的。她对世界观的质疑便体现在了这次对话里，因为他的父亲掏出20美元，询问她能不能以此作为交换来让她成为他儿子的朋友。对于Candy来说这是一件极其吊诡的事情，毕竟在她的世界里友谊不是靠金钱换得的。她拒绝了，但依然答应帮他找一下自己的儿子。而那片罂粟花山也是她私自很喜欢去的地方，于是便在那里找到了Cove。
 
