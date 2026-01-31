@@ -1,717 +1,263 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OceanRose</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OceanRose</title>
+<style>
+:root {
+  /* 默认红蓝渐变 */
+  --bg-gradient: linear-gradient(135deg, #fef2f2, #d1e8ff);
+  --ink: #142233;
+  --muted: #5b6b7d;
+  --ocean: #3aa6ff;
+  --ocean2: #1c78ff;
+  --rose: #d11a4b;
+  --poppy: #ffffff;
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg1:#f7fbff;
-      --bg2:#eaf6ff;
-      --ink:#142233;
-      --muted:#5b6b7d;
-
-      --ocean:#3aa6ff;
-      --ocean2:#1c78ff;
-      --rose:#d11a4b;
-      --poppy:#ffffff;
-
-      --card: rgba(255,255,255,.72);
-      --border: rgba(20,34,51,.10);
-      --shadow: 0 18px 60px rgba(10,25,40,.12);
-
-      --radius: 22px;
-    }
-
-    /* Theme: Candy&Cove (pink+green) */
-    [data-theme="candy"]{
-      --bg1:#fff7fb;
-      --bg2:#f4fff9;
-      --ocean:#ff5aa5;   /* pink */
-      --ocean2:#28c07a;  /* green */
-      --rose:#ff2d55;
-      --ink:#1a1a1a;
-      --muted:#4f5b5f;
-      --card: rgba(255,255,255,.78);
-      --border: rgba(0,0,0,.08);
-    }
-
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      font-family:"Noto Serif SC", serif;
-      color:var(--ink);
-      background: radial-gradient(1200px 800px at 20% 10%, var(--bg2), transparent 55%),
-                  radial-gradient(1200px 900px at 80% 20%, rgba(58,166,255,.12), transparent 60%),
-                  linear-gradient(180deg, var(--bg1), #ffffff 45%, var(--bg2));
-      overflow-x:hidden;
-    }
-
-    a{color:inherit;text-decoration:none}
-    .container{width:min(1050px, 92vw); margin:0 auto;}
-
-    /* Soft floating particles */
-    .particles{
-      position:fixed; inset:0; pointer-events:none; z-index:0;
-      opacity:.55;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(255,255,255,.9) 0 2px, transparent 3px),
-        radial-gradient(circle at 70% 20%, rgba(255,255,255,.8) 0 2px, transparent 3px),
-        radial-gradient(circle at 40% 70%, rgba(255,255,255,.75) 0 2px, transparent 3px),
-        radial-gradient(circle at 90% 80%, rgba(255,255,255,.8) 0 2px, transparent 3px);
-      filter: blur(.2px);
-      animation: drift 16s ease-in-out infinite alternate;
-    }
-    @keyframes drift{
-      from{transform:translateY(0)}
-      to{transform:translateY(-18px)}
-    }
-
-    /* Navbar */
-    .nav{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(12px);
-      background: rgba(255,255,255,.55);
-      border-bottom:1px solid var(--border);
-    }
-    .nav-inner{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:14px 0;
-    }
-    .brand{
-      display:flex; gap:10px; align-items:baseline;
-      font-family:"Playfair Display", serif;
-    }
-    .brand b{font-size:20px; letter-spacing:.6px}
-    .brand span{font-size:12px; color:var(--muted)}
-    .links{display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content:flex-end}
-    .chip{
-      font-size:13px; color:var(--muted);
-      padding:8px 12px; border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.55);
-      transition:.2s ease;
-    }
-    .chip:hover{transform:translateY(-1px); box-shadow:0 12px 30px rgba(10,25,40,.10); color:var(--ink)}
-    .tiny{padding:6px 10px; font-size:12px}
-
-    /* Hero */
-    .hero{position:relative; z-index:1; padding:56px 0 24px}
-    .hero-card{
-      border:1px solid var(--border);
-      background: linear-gradient(135deg, rgba(255,255,255,.82), rgba(255,255,255,.55));
-      border-radius: calc(var(--radius) + 10px);
-      box-shadow: var(--shadow);
-      padding:42px 34px;
-      overflow:hidden;
-      position:relative;
-    }
-    .hero-card:before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(800px 240px at 30% 0%, rgba(58,166,255,.20), transparent 55%),
-        radial-gradient(700px 220px at 80% 30%, rgba(209,26,75,.16), transparent 55%);
-      z-index:0;
-    }
-    .hero-content{position:relative; z-index:1}
-    .title{
-      font-family:"Playfair Display", serif;
-      font-size: clamp(34px, 5vw, 54px);
-      line-height:1.05;
-      margin:0 0 10px;
-      letter-spacing:.6px;
-    }
-    .subtitle{
-      margin:0;
-      color:var(--muted);
-      font-size:15px;
-      line-height:1.9;
-      max-width: 70ch;
-    }
-
-    /* Wave */
-    .wave{
-      margin-top:22px;
-      height:44px;
-      background: linear-gradient(90deg, rgba(58,166,255,.25), rgba(209,26,75,.20), rgba(58,166,255,.25));
-      border-radius:999px;
-      position:relative;
-      overflow:hidden;
-    }
-    .wave:after{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(circle at 20% 50%, rgba(255,255,255,.9) 0 10px, transparent 11px),
-        radial-gradient(circle at 55% 50%, rgba(255,255,255,.7) 0 8px, transparent 9px),
-        radial-gradient(circle at 85% 50%, rgba(255,255,255,.85) 0 12px, transparent 13px);
-      opacity:.8;
-      animation: waveMove 7s ease-in-out infinite alternate;
-    }
-    @keyframes waveMove{
-      from{transform:translateX(-10%)}
-      to{transform:translateX(10%)}
-    }
-
-    /* Sections */
-    section{position:relative; z-index:1; padding:22px 0 18px}
-    .sec{
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--card);
-      box-shadow: 0 14px 46px rgba(10,25,40,.10);
-      overflow:hidden;
-    }
-    .sec-head{
-      padding:18px 20px;
-      border-bottom:1px solid var(--border);
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    .sec-head h2{
-      margin:0;
-      font-family:"Playfair Display", serif;
-      font-size:20px;
-      letter-spacing:.4px;
-    }
-    .badge{
-      font-size:12px; color:var(--muted);
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.55);
-      padding:6px 10px; border-radius:999px;
-    }
-    .sec-body{padding:18px 20px 22px}
-    .cover{
-      border-radius:18px;
-      border:1px solid var(--border);
-      overflow:hidden;
-      height: 240px;
-      background:
-        radial-gradient(900px 320px at 25% 30%, rgba(58,166,255,.20), transparent 60%),
-        radial-gradient(900px 320px at 70% 30%, rgba(209,26,75,.18), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.25));
-      display:flex; align-items:center; justify-content:center;
-      position:relative;
-    }
-    .cover small{
-      color:var(--muted);
-      font-size:13px;
-      text-align:center;
-      padding:0 16px;
-      line-height:1.7;
-    }
-    .cover:after{
-      content:"";
-      position:absolute; inset:0;
-      background-image: radial-gradient(circle at 12% 20%, rgba(255,255,255,.85) 0 2px, transparent 3px);
-      opacity:.55;
-    }
-
-    .prose{
-      margin-top:16px;
-      color:var(--ink);
-      line-height:2.05;
-      font-size:15px;
-      white-space:pre-wrap;
-    }
-    .muted{color:var(--muted)}
-    .divider{
-      height:1px; background:var(--border); margin:16px 0;
-    }
-
-    .gallery{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:12px;
-      margin-top:14px;
-    }
-    .ph{
-      grid-column: span 4;
-      border-radius:18px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.55);
-      height: 160px;
-      position:relative;
-      overflow:hidden;
-    }
-    .ph:before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(300px 160px at 20% 30%, rgba(58,166,255,.18), transparent 55%),
-        radial-gradient(300px 160px at 80% 70%, rgba(209,26,75,.14), transparent 55%);
-    }
-    .ph span{
-      position:absolute; inset:auto 14px 12px 14px;
-      font-size:12px; color:var(--muted);
-    }
-    @media (max-width: 820px){
-      .ph{grid-column: span 6}
-      .cover{height:200px}
-    }
-
-    /* Floating controls */
-    .controls{
-      position:fixed; right:16px; bottom:16px;
-      display:flex; flex-direction:column; gap:10px;
-      z-index:99;
-    }
-    .btn{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.70);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding:10px 12px;
-      font-size:13px;
-      color:var(--ink);
-      box-shadow: 0 16px 40px rgba(10,25,40,.12);
-      cursor:pointer;
-      transition:.18s ease;
-    }
-    .btn:hover{transform:translateY(-1px)}
-    .btn small{display:block; color:var(--muted); font-size:11px; margin-top:2px}
-
-    /* Modal */
-    .modal{
-      position:fixed; inset:0; z-index:120;
-      display:none; place-items:center;
-      background: rgba(10,18,28,.45);
-      backdrop-filter: blur(8px);
-      padding:18px;
-    }
-    .modal.open{display:grid}
-    .modal-card{
-      width:min(780px, 94vw);
-      border-radius: 24px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.88);
-      box-shadow: 0 30px 120px rgba(0,0,0,.25);
-      overflow:hidden;
-    }
-    .modal-head{
-      display:flex; justify-content:space-between; align-items:center;
-      padding:14px 16px;
-      border-bottom:1px solid rgba(0,0,0,.08);
-    }
-    .modal-head b{font-family:"Playfair Display", serif}
-    .close{
-      border:none; background:transparent; font-size:18px; cursor:pointer;
-    }
-    .modal-body{
-      padding:16px;
-      line-height:2.05;
-      white-space:pre-wrap;
-      font-size:15px;
-    }
-
-    /* Fireflies mode */
-    .night{
-      background: radial-gradient(900px 600px at 30% 20%, rgba(28,120,255,.20), transparent 60%),
-                  radial-gradient(900px 600px at 80% 30%, rgba(209,26,75,.12), transparent 60%),
-                  linear-gradient(180deg, #070b14, #0b1224 45%, #06101e);
-      color:#f3f6ff;
-    }
-    .night .nav{background: rgba(8,12,22,.55); border-bottom:1px solid rgba(255,255,255,.08)}
-    .night .chip, .night .btn, .night .badge{background: rgba(10,18,30,.55); border:1px solid rgba(255,255,255,.10); color:#f3f6ff}
-    .night .sec{background: rgba(10,18,30,.52); border:1px solid rgba(255,255,255,.10)}
-    .night .muted{color: rgba(243,246,255,.75)}
-    .night .cover{background: radial-gradient(900px 320px at 25% 30%, rgba(58,166,255,.18), transparent 60%),
-                           radial-gradient(900px 320px at 70% 30%, rgba(255,210,90,.12), transparent 60%),
-                           linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));}
-    .fireflies{
-      position:fixed; inset:0; pointer-events:none; z-index:2;
-      display:none;
-    }
-    .night .fireflies{display:block}
-    .fly{
-      position:absolute;
-      width:6px; height:6px;
-      border-radius:999px;
-      background: rgba(255, 234, 160, .9);
-      box-shadow: 0 0 18px rgba(255, 234, 160, .9);
-      animation: floaty 10s ease-in-out infinite;
-      opacity:.85;
-    }
-    @keyframes floaty{
-      0%{transform:translate(0,0)}
-      50%{transform:translate(40px,-60px)}
-      100%{transform:translate(0,0)}
-    }
-
-    footer{
-      padding:26px 0 44px;
-      color:var(--muted);
-      text-align:center;
-      font-size:13px;
-      position:relative; z-index:1;
-    }
-    /* ===== Theme system ===== */
-:root{
-  --bg1:#f7fbff;
-  --bg2:#fff8fb;
-  --accent:#2a6fdb;     /* blue */
-  --accent2:#d63a3a;    /* red */
-  --text:#0f172a;
-  --card:rgba(255,255,255,.78);
-  --border:rgba(15,23,42,.08);
+  --card: rgba(255,255,255,0.72);
+  --border: rgba(20,34,51,0.1);
+  --shadow: 0 18px 60px rgba(10,25,40,0.12);
+  --radius: 22px;
 }
 
-/* 红蓝主题：OceanRose */
-body[data-theme="oceanrose"]{
-  --accent:#2a6fdb;
-  --accent2:#d63a3a;
+/* Candy & Cove 粉绿高级渐变 */
+[data-theme="candy"] {
+  --bg-gradient: linear-gradient(135deg, #fff7fb, #f4fff9);
+  --ocean: #ff5aa5; /* pink */
+  --ocean2: #28c07a; /* green */
+  --rose: #ff2d55;
+  --ink: #1a1a1a;
 }
 
-/* 粉绿主题：Candy */
-body[data-theme="candygreen"]{
-  --accent:#22c55e;    /* green */
-  --accent2:#fb7185;   /* pink */
+/* Ocean 红蓝主题 */
+[data-theme="ocean"] {
+  --bg-gradient: linear-gradient(135deg, #fef2f2, #d1e8ff);
+  --ocean: #3aa6ff;
+  --ocean2: #1c78ff;
+  --rose: #d11a4b;
+  --ink: #142233;
 }
 
-/* 让主题颜色影响按钮/标签等（如果你原本已写就不用重复） */
-a, .pill, .nav-btn.active{
-  color: var(--accent);
+/* 页面基础样式 */
+body {
+  margin:0;
+  font-family: "Helvetica", "Arial", sans-serif;
+  background: var(--bg-gradient);
+  color: var(--ink);
+  transition: background 0.5s ease, color 0.5s ease;
 }
-.nav-btn.active{
-  border-color: rgba(42,111,219,.25);
-  background: rgba(42,111,219,.08);
+
+header {
+  text-align:center;
+  padding: 1rem;
 }
-body[data-theme="candygreen"] .nav-btn.active{
-  border-color: rgba(34,197,94,.25);
-  background: rgba(34,197,94,.10);
-    }
-  </style>
+
+header h1 {
+  font-size: 2rem;
+}
+
+button.theme-btn {
+  cursor:pointer;
+  padding: 6px 12px;
+  margin:0 6px;
+  border-radius: 8px;
+  border:none;
+  background-color: var(--rose);
+  color:white;
+  font-weight:bold;
+  transition: 0.3s;
+}
+button.theme-btn:hover {
+  opacity:0.8;
+}
+
+/* 章节按钮 */
+.nav-buttons {
+  text-align:center;
+  margin:1rem 0;
+}
+.nav-buttons button {
+  margin:0 4px;
+  padding:6px 12px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background-color: var(--card);
+  cursor:pointer;
+  transition:0.3s;
+}
+.nav-buttons button:hover {
+  background-color: var(--rose);
+  color:white;
+}
+
+/* 章节卡片 */
+.chapter {
+  display:none;
+  max-width:700px;
+  margin:1rem auto;
+  padding:1rem;
+  background-color: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.chapter img {
+  width:100%;
+  max-width:500px;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+
+.chapter p {
+  margin-bottom:0.8rem;
+  line-height:1.6;
+}
+
+.show-full-btn {
+  display:inline-block;
+  padding:8px 16px;
+  margin-top:12px;
+  border-radius:8px;
+  border:none;
+  background-color: var(--rose);
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+.show-full-btn:hover {
+  opacity:0.8;
+}
+
+/* 火萤彩蛋 */
+#fireflies, #clickFireflies {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:10;
+}
+.fly {
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:yellow;
+  border-radius:50%;
+  animation: float 5s linear infinite;
+  opacity:0.8;
+}
+@keyframes float {
+  0% { transform: translate(0,0) }
+  50% { transform: translate(50px,100px) }
+  100% { transform: translate(-20px,-50px) }
+}
+</style>
 </head>
+<body data-theme="ocean">
 
-<body>
-  <div class="particles"></div>
-  <div class="fireflies" id="fireflies"></div>
+<header>
+  <h1>OceanRose 🌊🤍🌹</h1>
+  <button class="theme-btn" id="themeBtn">切换主题</button>
+</header>
 
-  <!-- NAV -->
-  <div class="nav">
-    <div class="container nav-inner">
-      <div class="brand">
-        <b>OceanRose</b>
-        <span>🌊🌹</span>
-      </div>
+<div class="nav-buttons">
+  <button onclick="showChapter('story')">故事梗概</button>
+  <button onclick="showChapter('step1')">Step1 · 8岁</button>
+  <button onclick="showChapter('step2')">Step2 · 14岁</button>
+  <button onclick="showChapter('step3')">Step3 · 18岁</button>
+  <button onclick="showChapter('step4')">Step4 · 现在</button>
+</div>
 
-      <div class="links">
-        <a class="chip" href="#synopsis">故事梗概</a>
-        <a class="chip" href="#step1">Step1 · 8岁</a>
-        <a class="chip" href="#step2">Step2 · 13岁</a>
-        <a class="chip" href="#step3">Step3 · 18岁</a>
-        <a class="chip" href="#step4">Step4 · 现在</a>
-        <a class="chip tiny" href="javascript:void(0)" id="secretBtn">✦</a>
-      </div>
-    </div>
+<!-- 故事梗概 -->
+<div id="story" class="chapter" style="display:block;">
+  <img src="images/story_cover.png" alt="故事封面">
+  <p>男方是Cove，女方是Candy。八岁的盛夏是两人的第一次相遇。Cove经历了父母离异，随父亲搬到加州靠海小镇Sunset Bird，他急切地想逃离这一切，独自跑到罂粟花山上。夜晚，一个同龄的女孩Candy出现在他面前，一切悄然改变……</p>
+  <button class="show-full-btn" onclick="showFullStory()">点此查看全文</button>
+  <div id="fullStory" style="display:none;">
+    <p>当女孩说出他的名字的时候，他感觉这一切更神奇了，直到女孩告诉他她是从他父亲知道他的名字的……</p>
+    <p>（将你之前发给我的全文故事内容放在这里）</p>
+    <p>……最终，他们在异地恋中依然稳定，彼此最重要的人。</p>
   </div>
+</div>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="container">
-      <div class="hero-card">
-        <div class="hero-content">
-          <h1 class="title">OceanRose</h1>
-          <p class="subtitle">
-            海洋是你们共同的归处。<br/>
-            白色罂粟花记得盛夏的相遇，红玫瑰见证长久的心意。<br/>
-            <span class="muted">Cove × Candy · A story written by time.</span>
-          </p>
-          <div class="wave" aria-hidden="true"></div>
-        </div>
-      </div>
-    </div>
-  </header>
+<!-- 可保留 Step1~Step4 章节 -->
+<div id="step1" class="chapter">
+  <img src="images/step1.png" alt="8岁Cove & Candy">
+  <p>章节内容……</p>
+</div>
+<div id="step2" class="chapter">
+  <img src="images/step2.png" alt="14岁Cove & Candy">
+  <p>章节内容……</p>
+</div>
+<div id="step3" class="chapter">
+  <img src="images/step3.png" alt="18岁Cove & Candy">
+  <p>章节内容……</p>
+</div>
+<div id="step4" class="chapter">
+  <img src="images/step4.png" alt="现在的Cove & Candy">
+  <p>章节内容……</p>
+</div>
 
-  <!-- SECTION: Synopsis -->
-  <section id="synopsis">
-    <div class="container">
-      <div class="sec">
-        <div class="sec-head">
-          <h2>故事梗概</h2>
-          <span class="badge">Ocean · Poppy · Rose</span>
-        </div>
-        <div class="sec-body">
-          <div class="cover">
-            <small>
-              这里放「故事梗概」封面图<br/>
-              之后你给我图片，我会教你替换为真实图片。
-            </small>
-          </div>
+<div id="fireflies"></div>
+<div id="clickFireflies"></div>
 
-          <div class="prose" id="synopsisText">
-男方是Cove，女方是Candy。
+<script>
+// 章节切换
+function showChapter(id){
+  document.querySelectorAll('.chapter').forEach(c=>c.style.display='none');
+  document.getElementById(id).style.display='block';
+}
 
-八岁的盛夏是两人的第一次相遇。那年，Cove经历了父母离异，和父亲一同搬到了加州一个偏远靠海、名为Sunset Bird的小镇……
-（这里我先放一个摘要版，之后我们会把你提供的完整文本拆分成更好读的段落排版）
-          </div>
+// 展开全文
+function showFullStory(){
+  document.getElementById('fullStory').style.display='block';
+}
 
-          <div class="divider"></div>
+// 主题切换按钮
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+  const current = document.body.getAttribute('data-theme');
+  if(current === 'candy') {
+    document.body.setAttribute('data-theme','ocean');
+  } else {
+    document.body.setAttribute('data-theme','candy');
+  }
+});
 
-          <div class="gallery">
-            <div class="ph"><span>梗概封面 / 插画 01</span></div>
-            <div class="ph"><span>梗概封面 / 插画 02</span></div>
-            <div class="ph"><span>共同元素：海洋</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+// 背景火萤
+function spawnFireflies(n=30){
+  const container = document.getElementById('fireflies');
+  container.innerHTML = '';
+  for(let i=0;i<n;i++){
+    const f = document.createElement('div');
+    f.className = 'fly';
+    f.style.left = Math.random()*100 + 'vw';
+    f.style.top = Math.random()*100 + 'vh';
+    f.style.animationDuration = (3+Math.random()*5)+'s';
+    f.style.opacity = 0.3 + Math.random()*0.7;
+    container.appendChild(f);
+  }
+}
+spawnFireflies();
 
-  <!-- SECTION: Step1 -->
-  <section id="step1">
-    <div class="container">
-      <div class="sec">
-        <div class="sec-head">
-          <h2>Step1 · 8岁</h2>
-          <span class="badge">盛夏 · 罂粟花山 · 初遇</span>
-        </div>
-        <div class="sec-body">
-          <div class="cover">
-            <small>这里放 Step1 封面图（8岁人设图）</small>
-          </div>
+// 点击彩蛋火萤
+document.body.addEventListener('click', e => {
+  const container = document.getElementById('clickFireflies');
+  for(let i=0;i<5;i++){
+    const f = document.createElement('div');
+    f.className = 'fly';
+    f.style.left = (e.clientX + (Math.random()*60-30)) + 'px';
+    f.style.top = (e.clientY + (Math.random()*60-30)) + 'px';
+    f.style.width = f.style.height = (2+Math.random()*4) + 'px';
+    f.style.opacity = 0.5 + Math.random()*0.5;
+    f.style.animationDuration = (2+Math.random()*2) + 's';
+    container.appendChild(f);
+    setTimeout(()=>container.removeChild(f), 2000);
+  }
+});
+</script>
 
-          <div class="prose">
-你将会在这里放：
-- 8岁 Cove 人设图
-- 8岁 Candy 人设图
-- 罂粟花山 / 海边创作
-- 初遇的关键情节
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="gallery">
-            <div class="ph"><span>8岁 Cove</span></div>
-            <div class="ph"><span>8岁 Candy</span></div>
-            <div class="ph"><span>罂粟花山</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION: Step2 -->
-  <section id="step2">
-    <div class="container">
-      <div class="sec">
-        <div class="sec-head">
-          <h2>Step2 · 14岁</h2>
-          <span class="badge">隐形的墙 · 拥抱 · 看见</span>
-        </div>
-        <div class="sec-body">
-          <div class="cover">
-            <small>这里放 Step2 封面图（14岁人设图）</small>
-          </div>
-
-          <div class="prose">
-这一章的重点会很温柔：
-- Candy的隐形墙
-- Cove敲窗而来
-- “没事，我在，你都可以和我说。”
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="gallery">
-            <div class="ph"><span>14岁 Cove</span></div>
-            <div class="ph"><span>14岁 Candy</span></div>
-            <div class="ph"><span>窗边的夜</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION: Step3 -->
-  <section id="step3">
-    <div class="container">
-      <div class="sec">
-        <div class="sec-head">
-          <h2>Step3 · 18岁</h2>
-          <span class="badge">舞会 · 慈善晚会 · 萤火虫</span>
-        </div>
-        <div class="sec-body">
-          <div class="cover">
-            <small>这里放 Step3 封面图（18岁人设图）</small>
-          </div>
-
-          <div class="prose">
-这里会有“萤火虫模式”彩蛋入口。
-当你把这一章写完整后，我会把最后的告白段落做成更电影感的排版。
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="gallery">
-            <div class="ph"><span>18岁 正装 Cove</span></div>
-            <div class="ph"><span>18岁 Candy 礼服</span></div>
-            <div class="ph"><span>萤火虫夜</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION: Step4 -->
-  <section id="step4">
-    <div class="container">
-      <div class="sec">
-        <div class="sec-head">
-          <h2>Step4 · 现在</h2>
-          <span class="badge">仍然相爱 · 仍然是彼此最重要的人</span>
-        </div>
-        <div class="sec-body">
-          <div class="cover">
-            <small>这里放 Step4 封面图（现在）</small>
-          </div>
-
-          <div class="prose">
-你可以写：
-- 异地恋相聚
-- 未来的愿望
-- 你想对他/她说的话
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="gallery">
-            <div class="ph"><span>现在 · 合照/象征图 01</span></div>
-            <div class="ph"><span>现在 · 合照/象征图 02</span></div>
-            <div class="ph"><span>未来愿望</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="container">
-    Made with ocean light, poppy white, and rose red. <br/>
-    <span class="muted">OceanRose · Cove × Candy</span>
-  </footer>
-
-  <!-- Controls -->
-  <div class="controls">
-    <button id="themeBtn" class="fab-btn">
-  🎨 主题切换
-  <span id="themeLabel">红蓝 / 粉绿</span>
-    </button>
-    <button class="btn" id="musicBtn">
-      🎵 音乐
-      <small>点击播放/暂停</small>
-    </button>
-    <button class="btn" id="fireflyBtn">
-      🪲 Fireflies
-      <small>萤火虫夜晚模式</small>
-    </button>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal" id="modal">
-    <div class="modal-card">
-      <div class="modal-head">
-        <b>Only Us ✦</b>
-        <button class="close" id="closeModal">✕</button>
-      </div>
-      <div class="modal-body" id="modalBody">
-这是一封隐藏的信。
-
-你可以把这里写成：
-“写给Cove的信 / 写给Candy的信”
-也可以设置密码（我可以帮你加）。
-
-（等你把想写的内容给我，我会帮你润色成很漂亮的版本。）
-      </div>
-    </div>
-  </div>
-
-  <!-- Audio (you can replace later) -->
-  <audio id="bgm" loop>
-    <!-- 你可以之后换成你喜欢的音乐文件，例如：assets/bgm.mp3 -->
-  </audio>
-
-  <script>
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const href = a.getAttribute('href');
-        if(!href || href === '#') return;
-        const el = document.querySelector(href);
-        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
-      });
-    });
-
-    // Theme toggle
-    const themeBtn = document.getElementById('themeBtn');
-    themeBtn.addEventListener('click', ()=>{
-      const root = document.documentElement;
-      const now = root.getAttribute('data-theme');
-      if(now === 'candy'){
-        root.removeAttribute('data-theme');
-      }else{
-        root.setAttribute('data-theme','candy');
-      }
-    });
-
-    // Secret modal
-    const modal = document.getElementById('modal');
-    const secretBtn = document.getElementById('secretBtn');
-    const closeModal = document.getElementById('closeModal');
-    secretBtn.addEventListener('click', ()=> modal.classList.add('open'));
-    closeModal.addEventListener('click', ()=> modal.classList.remove('open'));
-    modal.addEventListener('click', (e)=>{ if(e.target === modal) modal.classList.remove('open'); });
-
-    // Music
-    const bgm = document.getElementById('bgm');
-    const musicBtn = document.getElementById('musicBtn');
-    let playing = false;
-    musicBtn.addEventListener('click', async ()=>{
-      try{
-        if(!playing){
-          await bgm.play();
-          playing = true;
-          musicBtn.innerHTML = "⏸️ 音乐<small>正在播放</small>";
-        }else{
-          bgm.pause();
-          playing = false;
-          musicBtn.innerHTML = "🎵 音乐<small>点击播放/暂停</small>";
-        }
-      }catch(err){
-        alert("浏览器阻止自动播放：请先点击一次页面后再尝试播放音乐。");
-      }
-    });
-
-    // Fireflies
-    const fireflyBtn = document.getElementById('fireflyBtn');
-    const fireflies = document.getElementById('fireflies');
-    function spawnFireflies(n=18){
-      fireflies.innerHTML = '';
-      for(let i=0;i<n;i++){
-        const d = document.createElement('div');
-        d.className = 'fly';
-        d.style.left = Math.random()*100 + 'vw';
-        d.style.top = Math.random()*100 + 'vh';
-        d.style.animationDuration = (7 + Math.random()*8) + 's';
-        d.style.animationDelay = (-Math.random()*8) + 's';
-        d.style.opacity = (0.5 + Math.random()*0.5);
-        fireflies.appendChild(d);
-      }
-    }
-    spawnFireflies();
-
-    fireflyBtn.addEventListener('click', ()=>{
-      document.body.classList.toggle('night');
-      spawnFireflies();
-    });
-
-    // Put your full synopsis later
-    // Tip: replace synopsisText inner content with your full story.
-  </script>
 </body>
-        </html>
+</html>
