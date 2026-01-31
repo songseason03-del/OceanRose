@@ -351,6 +351,52 @@
       font-size:13px;
       position:relative; z-index:1;
     }
+    /* Synopsis long text toggle */
+.synopsis-toggle{
+  margin-top:14px;
+  border-top:1px dashed var(--border);
+  padding-top:12px;
+}
+
+.synopsis-toggle summary{
+  cursor:pointer;
+  list-style:none;
+  font-size:13px;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  user-select:none;
+}
+
+.synopsis-toggle summary::-webkit-details-marker{
+  display:none;
+}
+
+.synopsis-toggle summary span::after{
+  content:" ↓";
+}
+
+.synopsis-toggle[open] summary span::after{
+  content:" ↑";
+}
+
+.synopsis-toggle .long{
+  margin-top:14px;
+  animation: synopsisFade .35s ease;
+}
+
+@keyframes synopsisFade{
+  from{
+    opacity:0;
+    transform:translateY(-6px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
   </style>
 </head>
 
@@ -363,7 +409,7 @@
     <div class="container nav-inner">
       <div class="brand">
         <b>OceanRose</b>
-        <span>🌊🌹❤️🩵</span>
+        <span>🌊🌹</span>
       </div>
 
       <div class="links">
