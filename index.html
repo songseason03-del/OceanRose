@@ -182,7 +182,11 @@
       content:"";
       position:absolute; inset:-2px;
       background:
-        radial-gradient(800px 240px at 30% 0%, rgba(58,166,255,.20), transparent 55%),
+        radial-gradient(
+  900px 300px at 30% 0%,
+  color-mix(in srgb, var(--ocean) 35%, transparent),
+  transparent 60%
+),
         radial-gradient(700px 220px at 80% 30%, rgba(209,26,75,.16), transparent 55%);
       z-index:0;
     }
