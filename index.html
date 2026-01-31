@@ -770,9 +770,9 @@ Candy本来还想下意识地说真的没什么的，结果眼泪却开始不自
 
   <!-- Controls -->
   <div class="controls">
-    <button class="btn" id="themeBtn">
-      🎨 主题切换
-      <small>红蓝 / 粉绿</small>
+    <button class="btn" data-theme-btn>
+  🎨 主题切换
+  <small>红蓝 / 粉绿</small>
     </button>
     <button class="btn" id="musicBtn">
       🎵 音乐
@@ -884,6 +884,18 @@ Candy本来还想下意识地说真的没什么的，结果眼泪却开始不自
 
     // Put your full synopsis later
     // Tip: replace synopsisText inner content with your full story.
+  </script>
+  <script>
+  const themeBtn = document.querySelector('.btn[data-theme-btn]');
+
+  themeBtn?.addEventListener('click', () => {
+    const body = document.body;
+    const current = body.getAttribute('data-theme');
+    body.setAttribute(
+      'data-theme',
+      current === 'candy' ? 'ocean' : 'candy'
+    );
+  });
   </script>
 </body>
     </html>
