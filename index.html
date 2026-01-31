@@ -179,16 +179,24 @@
       position:relative;
     }
     .hero-card:before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(
-  900px 300px at 30% 0%,
-  color-mix(in srgb, var(--ocean) 35%, transparent),
-  transparent 60%
-),
-        radial-gradient(700px 220px at 80% 30%, rgba(209,26,75,.16), transparent 55%);
-      z-index:0;
+  content:"";
+  position:absolute;
+  inset:-6%;
+  z-index:0;
+  pointer-events:none;
+
+  background:
+    radial-gradient(
+      1000px 360px at 50% -10%,
+      color-mix(in srgb, var(--ocean) 42%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      800px 300px at 15% 30%,
+      color-mix(in srgb, var(--ocean2) 28%, transparent),
+      transparent 65%
+    );
+    }
     }
     .hero-content{position:relative; z-index:1}
     .title{
